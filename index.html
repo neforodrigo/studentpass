@@ -106,11 +106,12 @@
             align-items: center;
         }
 
-        .photo-container img {
+        .photo-preview {
             width: 100%;
             height: 100%;
-            object-fit: cover;
-            object-position: top center;
+            background-size: cover;
+            background-position: top center;
+            background-repeat: no-repeat;
             display: none; /* Hidden until loaded */
         }
         
@@ -364,7 +365,7 @@
             
             <div class="photo-container" onclick="document.getElementById('photo-upload').click()">
                 <span class="photo-placeholder-text" id="photo-placeholder">Clique p/ Upload Foto</span>
-                <img id="profile-img" src="" alt="Foto do Aluno">
+                <div id="profile-img" class="photo-preview"></div>
                 <input type="file" id="photo-upload" accept="image/*" onchange="previewImage(event, 'profile-img', 'photo-placeholder')">
             </div>
         </div>
@@ -462,20 +463,26 @@
         /**
          * Lida com o upload e preview das imagens (Foto e QR Code)
          * @param {Event} event - O evento de change do input de arquivo
-         * @param {string} imgId - O ID do elemento <img> onde a imagem será exibida
+         * @param {string} elementId - O ID do elemento onde a imagem será exibida
          * @param {string} placeholderId - O ID do texto de placeholder a ser escondido
          */
-        function previewImage(event, imgId, placeholderId) {
+        function previewImage(event, elementId, placeholderId) {
             const file = event.target.files[0];
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    const imgElement = document.getElementById(imgId);
+                    const targetElement = document.getElementById(elementId);
                     const placeholderElement = document.getElementById(placeholderId);
                     
-                    imgElement.src = e.target.result;
-                    imgElement.style.display = 'block'; // Mostra a imagem
-                    if (placeholderElement) placeholderElement.style.display = 'none'; // Esconde o texto de aviso se existir
+                    // Verifica se é uma tag IMG (QR Code) ou uma DIV (Foto de perfil)
+                    if (targetElement.tagName === 'IMG') {
+                        targetElement.src = e.target.result;
+                    } else {
+                        targetElement.style.backgroundImage = `url(${e.target.result})`;
+                    }
+                    
+                    targetElement.style.display = 'block'; // Mostra a imagem
+                    if (placeholderElement) placeholderElement.style.display = 'none'; // Esconde o texto de aviso
                 }
                 reader.readAsDataURL(file);
             }
