@@ -432,8 +432,8 @@
                 <!-- QR Code Upload Area -->
                 <div class="qr-container" onclick="document.getElementById('qr-upload').click()" title="Clique para alterar o QR Code">
                     <span class="qr-placeholder-text" id="qr-placeholder">Clique p/ Upload QR Code</span>
-                    <!-- Imagem base64 do QR code fornecido -->
-                    <img id="qr-code-img" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAAEsAQMAAABDsxw2AAAABlBMVEX///8AAABVwtN+AAAC1ElEQVR42u3awW3jMBAF0KFRgAqwH3b9W4+yAvkG7EBtQJpTGBQ2B0s/kL8P36B8M28Ykk8fPnz48B9Q/N0vHx8l4mQG35p8q+l2pX6j3/L5xXz9nPxJ3f9x68r4YmE8P/jXz0t/O3k/c97b81bGFwvj4cG9pXQ/7T86J38O//2cE18sjIcHtzm1p/P70/2c/FnJq4nxxcJ4evA8p+502845mXn3zK2OLxbGw4PznJPTNn48fU4u9s8XpXx5y8UXC+PRwfecbifT5yTzY7L973y54YuF8ejgbU6n9jF5n2Ruz69Z/6qX/sX4YmF8fPBuTvc5tY+3L4c311uPbyUXXyyMBwff5fQ6p+V9+9H2Nn1uE9/K+GJhPDx4rNNyTrc5Le9jcp/7W3+p44uF8fDg32d8vD2e93O6zf1FefHFwnh4cLn0lznf3h5b5XJ6y0rEFwvjwcF/99q/qf199/1v0T/FFwvjwYPr6c4/6n9fI3lOLuK1jC8WxsODy7b9PqeH1821jS8WxsOD5617ndNjTq9p2/hiYTw+eJ5TuzW2J8tJj/j63p+zM75YGI8OHut0v1K/5/R668x9y7Y6vlgYjw4ub+08J//7h7aXyZ0x+b+zM75YGI8Onuc07eP5nLzWye6t51vji4Xx6OBr6xZzuu3j+ZymM+I28e0mvl0aXyyMxwevt+Rz8ntrl5M+/3/t4IuF8fjguU5n56Xl/Zzcx3N7/VqWjC8WxsOD25xO93N6ntO182e0jS8WxuODz3M6nbxNfvucnHfPxBcL48HBL1+S8+vS1sX3yS3vT3uQ8cXCeHjw2k5X2r59Tp7X+n2yI75YGA8PPmvtzc+58+Zt+7wzXyyMDw/+r1t13N7mffK2lYovFsbDgx9c3/mXj48/D/4L3x//9v0F+L+h4l/yPxsAAAAASUVORK5CYII=" alt="QR Code Padrão">
+                    <!-- Imagem do QR code carregada da raiz do projeto -->
+                    <img id="qr-code-img" src="qrcode.png" alt="QR Code Padrão">
                     <input type="file" id="qr-upload" accept="image/*" onchange="previewImage(event, 'qr-code-img', 'qr-placeholder')">
                 </div>
             </div>
