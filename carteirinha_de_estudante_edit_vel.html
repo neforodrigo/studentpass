@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carteirinha de Estudante - Editável</title>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --ifsul-red: #c9302c; /* Extracted red */
+            --ifsul-green: #37874c; /* Extracted green */
+            --ifsul-gray-dark: #333333;
+            --ifsul-gray-light: #777777;
+            --ifsul-bg-gray: #f5f5f5;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        body {
+            background-color: #e0e0e0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .card-container {
+            background-color: white;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            border-radius: 4px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        /* Top Section: Header with Logo and Photo */
+        .header-section {
+            padding: 20px 20px 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            position: relative;
+            background: white;
+            z-index: 2;
+        }
+
+        /* Logo styling (CSS representation for fidelity without external image) */
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 16px);
+            grid-template-rows: repeat(4, 16px);
+            gap: 3px;
+        }
+        
+        .logo-grid div {
+            background-color: #4CAF50; /* Base green for grid */
+            border-radius: 2px;
+        }
+        .logo-grid .red-dot {
+            background-color: var(--ifsul-red);
+            border-radius: 50%;
+        }
+        
+        .logo-text h1 {
+            font-size: 1.1rem;
+            color: var(--ifsul-gray-dark);
+            margin: 0;
+            line-height: 1.1;
+        }
+        .logo-text p {
+            font-size: 0.9rem;
+            color: var(--ifsul-gray-light);
+            margin: 0;
+        }
+
+        /* Photo Area */
+        .photo-container {
+            width: 120px;
+            height: 160px;
+            background-color: #ddd;
+            border: 3px solid white;
+            box-shadow: 0 0 5px rgba(0,0,0,0.3);
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            z-index: 10;
+            overflow: hidden;
+            cursor: pointer; /* Indicate it's clickable */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .photo-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none; /* Hidden until loaded */
+        }
+        
+        .photo-placeholder-text {
+            text-align: center;
+            font-size: 0.8rem;
+            color: #666;
+            padding: 10px;
+        }
+
+        /* Red Banner (Matricula) */
+        .matricula-banner {
+            background-color: var(--ifsul-red);
+            color: white;
+            padding: 10px 20px;
+            padding-right: 150px; /* Make space for photo */
+            font-weight: 700;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            z-index: 1;
+        }
+
+        /* Green Data Section */
+        .data-section {
+            background-color: var(--ifsul-green);
+            color: white;
+            padding: 20px 20px 25px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .data-field {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .data-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 2px;
+            font-weight: 400;
+        }
+
+        .data-value {
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .data-value.course-name {
+            font-size: 1.1rem;
+        }
+
+        .data-value.student-name {
+            font-size: 1.5rem;
+        }
+
+        .row-data {
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .row-data .data-field {
+            flex: 1;
+        }
+
+        /* Bottom Information Section */
+        .info-section {
+            background-color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .disclaimer-box {
+            border: 1px solid var(--ifsul-gray-light);
+            border-radius: 5px;
+            padding: 10px;
+            font-size: 0.9rem;
+            color: var(--ifsul-gray-dark);
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .campus-banner {
+            background-color: #777777; /* Gray banner */
+            color: white;
+            padding: 10px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+        }
+
+        .address-info {
+            font-size: 0.8rem;
+            color: var(--ifsul-gray-light);
+            font-style: italic;
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+
+        .validity-info {
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: var(--ifsul-gray-dark);
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        /* Footer with QR and Verification */
+        .footer-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            text-align: left;
+            font-size: 0.75rem;
+            color: var(--ifsul-gray-dark);
+            line-height: 1.3;
+        }
+
+        .footer-text {
+            flex: 1;
+            padding-right: 15px;
+        }
+        
+        .footer-text a {
+            color: var(--ifsul-gray-dark);
+            text-decoration: none;
+            word-break: break-all;
+        }
+
+        .qr-container {
+            width: 80px;
+            height: 80px;
+            background-color: #eee;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-shrink: 0;
+        }
+        
+        .qr-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: none;
+        }
+        
+        .qr-placeholder-text {
+            font-size: 0.6rem;
+            text-align: center;
+            color: #666;
+        }
+
+        /* Utilities */
+        [contenteditable="true"] {
+            outline: none;
+            border-bottom: 1px dashed transparent;
+            transition: border-color 0.2s;
+        }
+        
+        [contenteditable="true"]:hover, [contenteditable="true"]:focus {
+            border-bottom: 1px dashed rgba(255,255,255,0.5); /* For green/red bg */
+        }
+        
+        .info-section [contenteditable="true"]:hover, .info-section [contenteditable="true"]:focus {
+            border-bottom: 1px dashed rgba(0,0,0,0.3); /* For white bg */
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+        
+        /* Print optimization */
+        @media print {
+            body { background: white; padding: 0; }
+            .card-container { box-shadow: none; max-width: 100%; }
+            .export-buttons { display: none !important; }
+        }
+
+        /* Export Buttons - Floating */
+        .export-buttons {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+            z-index: 100;
+        }
+
+        .export-btn {
+            background-color: var(--ifsul-gray-dark);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: background-color 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .export-btn:hover {
+            background-color: #555;
+        }
+
+        .export-btn.pdf-btn {
+            background-color: var(--ifsul-red);
+        }
+        
+        .export-btn.pdf-btn:hover {
+            background-color: #a02623;
+        }
+
+        /* Classe para esconder elementos durante a exportação */
+        .hide-on-export {
+            display: none !important;
+        }
+    </style>
+    
+    <!-- Incluindo bibliotecas para exportação -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+
+    <div class="card-container" id="carteirinha-card">
+        <div class="header-section">
+            <div class="logo-area">
+                <div class="logo-grid">
+                    <div class="red-dot"></div><div></div><div></div>
+                    <div></div><div></div><div></div>
+                    <div></div><div></div><div></div>
+                    <div></div><div></div><div style="background: transparent;"></div>
+                </div>
+                <div class="logo-text">
+                    <h1 contenteditable="true">INSTITUTO FEDERAL</h1>
+                    <p contenteditable="true">Sul de Minas Gerais</p>
+                </div>
+            </div>
+            
+            <div class="photo-container" onclick="document.getElementById('photo-upload').click()">
+                <span class="photo-placeholder-text" id="photo-placeholder">Clique p/ Upload Foto</span>
+                <img id="profile-img" src="" alt="Foto do Aluno">
+                <input type="file" id="photo-upload" accept="image/*" onchange="previewImage(event, 'profile-img', 'photo-placeholder')">
+            </div>
+        </div>
+
+        <div class="matricula-banner">
+            MATRÍCULA RA &nbsp;<span contenteditable="true">202127660035</span>
+        </div>
+
+        <div class="data-section">
+            <div class="data-field">
+                <span class="data-label">CURSO</span>
+                <span class="data-value course-name" contenteditable="true">Pós-graduação Lato Sensu em Educação Inclusiva</span>
+            </div>
+            
+            <div class="data-field">
+                <span class="data-label">NOME</span>
+                <span class="data-value student-name" contenteditable="true">Rodrigo Ribeiro Conceição</span>
+            </div>
+
+            <div class="row-data">
+                <div class="data-field">
+                    <span class="data-label">NASCIMENTO</span>
+                    <span class="data-value" contenteditable="true">15/12/1992</span>
+                </div>
+                <div class="data-field" style="text-align: center;">
+                    <span class="data-label">CPF</span>
+                    <span class="data-value" contenteditable="true">407.814.488-83</span>
+                </div>
+                <div class="data-field" style="text-align: right;">
+                    <span class="data-label">VALIDADE</span>
+                    <span class="data-value" contenteditable="true">31/10/2025</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <div class="disclaimer-box" contenteditable="true">
+                Carteirinha de Identificação Estudantil emitida<br>de acordo com as disposições
+            </div>
+
+            <div class="campus-banner" contenteditable="true">
+                INSTITUTO FEDERAL DE EDUCAÇÃO, CIÊNCIA E TECNOLOGIA DO<br>SUL DE MINAS GERAIS - Campus Machado
+            </div>
+
+            <div class="address-info" contenteditable="true">
+                Rodovia Machado Paraguaçu, Km 3 - Santo Antonio<br>
+                MACHADO - MG - (35) 3295-9700
+            </div>
+
+            <div class="validity-info" contenteditable="true">
+                USO PESSOAL E INTRANSFERÍVEL<br>
+                VÁLIDA EM TODO TERRITÓRIO NACIONAL
+            </div>
+
+            <div class="footer-details">
+                <div class="footer-text" contenteditable="true">
+                    Este documento foi emitido pelo SUAP em 01/12/2021.<br>
+                    Para comprovar sua autenticidade, faça a leitura do<br>
+                    QRCode ao lado ou acesse<br>
+                    <a href="#">https://suap.ifsuldeminas.edu.br/comum/autenticar_documento/</a><br>
+                    e forneça os dados abaixo:<br>
+                    <strong>Código Verificador:</strong>5d4f2a
+                </div>
+                
+                <!-- QR Code Upload Area -->
+                <div class="qr-container" onclick="document.getElementById('qr-upload').click()">
+                    <span class="qr-placeholder-text" id="qr-placeholder">Clique p/ Upload QR Code</span>
+                    <img id="qr-code-img" src="" alt="QR Code">
+                    <input type="file" id="qr-upload" accept="image/*" onchange="previewImage(event, 'qr-code-img', 'qr-placeholder')">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Botões de Exportação -->
+    <div class="export-buttons" id="export-controls">
+        <button class="export-btn" onclick="exportToJPG()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+            </svg>
+            Salvar JPG
+        </button>
+        <button class="export-btn pdf-btn" onclick="exportToPDF()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z"/>
+                <path d="M4.603 14.087a.81.81 0 0 1-.438-.42c-.195-.388-.13-.776.08-1.102.198-.307.526-.568.897-.787a7.68 7.68 0 0 1 1.482-.645 19.697 19.697 0 0 0 1.062-2.227 7.269 7.269 0 0 1-.43-1.295c-.086-.4-.119-.796-.046-1.136.075-.354.274-.672.65-.823.192-.077.4-.12.602-.077a.7.7 0 0 1 .471.236c.088.1.15.25.15.414 0 .445-.375 1.724-1.028 2.648a19.46 19.46 0 0 0 1.88 1.974c.411.024.823.1 1.22.25.2.076.4.18.571.306.182.134.331.3.432.485.101.185.143.376.108.571a.923.923 0 0 1-.264.55c-.147.14-.37.202-.63.202-.345 0-.74-.112-1.14-.344-.403-.234-.842-.587-1.294-1.002a14.73 14.73 0 0 1-2.481.564c-.398.54-.836 1.054-1.332 1.439-.427.33-.873.541-1.32.617-.23.038-.445.023-.626-.06zm.71-1.337c.361-.06.74-.236 1.133-.509a15.82 15.82 0 0 1-1.077-1.127 6.64 6.64 0 0 0-.96.536c-.25.2-.411.39-.481.545-.07.155-.07.27-.03.351.04.08.12.13.24.16.12.03.26.04.4.03l.775-.084zm4.174-3.238c-.378-.063-.761-.144-1.144-.24a3.02 3.02 0 0 1-.035-.118 18.06 18.06 0 0 1 1.107-1.928 2.11 2.11 0 0 0 .15-.224c.1-.144.15-.285.15-.415 0-.08-.01-.15-.03-.21-.02-.06-.06-.11-.11-.14-.05-.03-.11-.04-.18-.04s-.14.02-.2.05c-.1.05-.18.15-.23.3-.06.16-.08.38-.07.65.01.27.05.59.13.97a5.55 5.55 0 0 0-.04.14zm-1.895-1.4c-.11.23-.23.47-.36.72.33-.14.67-.3.99-.48-.2-.16-.42-.32-.63-.49z"/>
+            </svg>
+            Exportar PDF
+        </button>
+    </div>
+
+    <script>
+        /**
+         * Lida com o upload e preview das imagens (Foto e QR Code)
+         * @param {Event} event - O evento de change do input de arquivo
+         * @param {string} imgId - O ID do elemento <img> onde a imagem será exibida
+         * @param {string} placeholderId - O ID do texto de placeholder a ser escondido
+         */
+        function previewImage(event, imgId, placeholderId) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const imgElement = document.getElementById(imgId);
+                    const placeholderElement = document.getElementById(placeholderId);
+                    
+                    imgElement.src = e.target.result;
+                    imgElement.style.display = 'block'; // Mostra a imagem
+                    placeholderElement.style.display = 'none'; // Esconde o texto de aviso
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Previne colagem com formatação (mantém o estilo da carteirinha ao colar texto)
+        document.querySelectorAll('[contenteditable="true"]').forEach(element => {
+            element.addEventListener('paste', function(e) {
+                e.preventDefault();
+                var text = (e.originalEvent || e).clipboardData.getData('text/plain');
+                document.execCommand('insertText', false, text);
+            });
+        });
+
+        function prepareForExport() {
+            // Remove the contenteditable styling temporarily
+            document.querySelectorAll('[contenteditable="true"]').forEach(el => {
+                el.style.borderBottom = 'none';
+            });
+            return document.getElementById('carteirinha-card');
+        }
+
+        function restoreAfterExport() {
+             document.querySelectorAll('[contenteditable="true"]').forEach(el => {
+                el.style.borderBottom = ''; // Volta ao padrão do CSS
+            });
+        }
+
+        function exportToJPG() {
+            const cardElement = prepareForExport();
+            
+            // Oculta os botões de exportação durante o print
+            const exportBtns = document.getElementById('export-controls');
+            exportBtns.classList.add('hide-on-export');
+
+            html2canvas(cardElement, {
+                scale: 2, // Maior resolução
+                useCORS: true, // Permite carregar imagens caso haja alguma externa
+                backgroundColor: "#ffffff"
+            }).then(canvas => {
+                // Cria um link temporário para download
+                const link = document.createElement('a');
+                link.download = 'carteirinha-estudante.jpg';
+                link.href = canvas.toDataURL('image/jpeg', 0.9);
+                link.click();
+                
+                restoreAfterExport();
+                exportBtns.classList.remove('hide-on-export');
+            }).catch(err => {
+                console.error("Erro ao gerar JPG:", err);
+                restoreAfterExport();
+                exportBtns.classList.remove('hide-on-export');
+                alert("Houve um erro ao gerar a imagem. Verifique o console.");
+            });
+        }
+
+        function exportToPDF() {
+            const cardElement = prepareForExport();
+            const exportBtns = document.getElementById('export-controls');
+            exportBtns.classList.add('hide-on-export');
+
+            // 1. Primeiro geramos uma imagem do elemento
+            html2canvas(cardElement, {
+                scale: 2,
+                useCORS: true,
+                backgroundColor: "#ffffff"
+            }).then(canvas => {
+                const imgData = canvas.toDataURL('image/jpeg', 1.0);
+                
+                // 2. Calculamos as dimensões para o PDF manter a proporção
+                const { jsPDF } = window.jspdf;
+                const pdf = new jsPDF('p', 'mm', 'a4');
+                
+                const pdfWidth = pdf.internal.pageSize.getWidth();
+                // Calcula a altura proporcional
+                const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+                
+                // Centralizar horizontalmente (embora esteja usando a largura total, é uma boa prática)
+                // Se quisermos margem:
+                const margin = 10;
+                const contentWidth = pdfWidth - (margin * 2);
+                const contentHeight = (canvas.height * contentWidth) / canvas.width;
+
+                pdf.addImage(imgData, 'JPEG', margin, margin, contentWidth, contentHeight);
+                pdf.save('carteirinha-estudante.pdf');
+                
+                restoreAfterExport();
+                exportBtns.classList.remove('hide-on-export');
+            }).catch(err => {
+                console.error("Erro ao gerar PDF:", err);
+                restoreAfterExport();
+                exportBtns.classList.remove('hide-on-export');
+                alert("Houve um erro ao gerar o PDF. Verifique o console.");
+            });
+        }
+    </script>
+</body>
+</html>
