@@ -33,7 +33,7 @@
         .card-container {
             background-color: white;
             width: 100%;
-            max-width: 450px;
+            max-width: 520px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
             border-radius: 4px;
             overflow: hidden;
@@ -110,6 +110,7 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+            object-position: top center;
             display: none; /* Hidden until loaded */
         }
         
@@ -159,14 +160,17 @@
         .data-value {
             font-size: 1.2rem;
             font-weight: 700;
+            white-space: nowrap;
         }
 
         .data-value.course-name {
             font-size: 1.1rem;
+            white-space: normal;
         }
 
         .data-value.student-name {
             font-size: 1.5rem;
+            white-space: normal;
         }
 
         .row-data {
@@ -246,7 +250,6 @@
         .qr-container {
             width: 80px;
             height: 80px;
-            background-color: #eee;
             cursor: pointer;
             display: flex;
             justify-content: center;
@@ -258,10 +261,11 @@
             width: 100%;
             height: 100%;
             object-fit: contain;
-            display: none;
+            display: block; /* Alterado para mostrar a imagem padrão */
         }
         
         .qr-placeholder-text {
+            display: none; /* Escondido pois teremos imagem padrão */
             font-size: 0.6rem;
             text-align: center;
             color: #666;
@@ -377,21 +381,21 @@
             
             <div class="data-field">
                 <span class="data-label">NOME</span>
-                <span class="data-value student-name" contenteditable="true">Rodrigo Ribeiro Conceição</span>
+                <span class="data-value student-name" contenteditable="true">lucas silva e silva</span>
             </div>
 
             <div class="row-data">
                 <div class="data-field">
                     <span class="data-label">NASCIMENTO</span>
-                    <span class="data-value" contenteditable="true">15/12/1992</span>
+                    <span class="data-value" id="mask-nascimento" contenteditable="true">01/01/2001</span>
                 </div>
                 <div class="data-field" style="text-align: center;">
                     <span class="data-label">CPF</span>
-                    <span class="data-value" contenteditable="true">407.814.488-83</span>
+                    <span class="data-value" id="mask-cpf" contenteditable="true">XXX.XXX.XXX-XX</span>
                 </div>
                 <div class="data-field" style="text-align: right;">
                     <span class="data-label">VALIDADE</span>
-                    <span class="data-value" contenteditable="true">31/10/2025</span>
+                    <span class="data-value" id="mask-validade" contenteditable="true">31/10/2027</span>
                 </div>
             </div>
         </div>
@@ -417,7 +421,7 @@
 
             <div class="footer-details">
                 <div class="footer-text" contenteditable="true">
-                    Este documento foi emitido pelo SUAP em 01/12/2021.<br>
+                    Este documento foi emitido pelo SUAP em 01/08/2026.<br>
                     Para comprovar sua autenticidade, faça a leitura do<br>
                     QRCode ao lado ou acesse<br>
                     <a href="#">https://suap.ifsuldeminas.edu.br/comum/autenticar_documento/</a><br>
@@ -426,9 +430,10 @@
                 </div>
                 
                 <!-- QR Code Upload Area -->
-                <div class="qr-container" onclick="document.getElementById('qr-upload').click()">
+                <div class="qr-container" onclick="document.getElementById('qr-upload').click()" title="Clique para alterar o QR Code">
                     <span class="qr-placeholder-text" id="qr-placeholder">Clique p/ Upload QR Code</span>
-                    <img id="qr-code-img" src="" alt="QR Code">
+                    <!-- Imagem base64 do QR code fornecido -->
+                    <img id="qr-code-img" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAAEsAQMAAABDsxw2AAAABlBMVEX///8AAABVwtN+AAAC1ElEQVR42u3awW3jMBAF0KFRgAqwH3b9W4+yAvkG7EBtQJpTGBQ2B0s/kL8P36B8M28Ykk8fPnz48B9Q/N0vHx8l4mQG35p8q+l2pX6j3/L5xXz9nPxJ3f9x68r4YmE8P/jXz0t/O3k/c97b81bGFwvj4cG9pXQ/7T86J38O//2cE18sjIcHtzm1p/P70/2c/FnJq4nxxcJ4evA8p+502845mXn3zK2OLxbGw4PznJPTNn48fU4u9s8XpXx5y8UXC+PRwfecbifT5yTzY7L973y54YuF8ejgbU6n9jF5n2Ruz69Z/6qX/sX4YmF8fPBuTvc5tY+3L4c311uPbyUXXyyMBwff5fQ6p+V9+9H2Nn1uE9/K+GJhPDx4rNNyTrc5Le9jcp/7W3+p44uF8fDg32d8vD2e93O6zf1FefHFwnh4cLn0lznf3h5b5XJ6y0rEFwvjwcF/99q/qf199/1v0T/FFwvjwYPr6c4/6n9fI3lOLuK1jC8WxsODy7b9PqeH1821jS8WxsOD5617ndNjTq9p2/hiYTw+eJ5TuzW2J8tJj/j63p+zM75YGI8OHut0v1K/5/R668x9y7Y6vlgYjw4ub+08J//7h7aXyZ0x+b+zM75YGI8Onuc07eP5nLzWye6t51vji4Xx6OBr6xZzuu3j+ZymM+I28e0mvl0aXyyMxwevt+Rz8ntrl5M+/3/t4IuF8fjguU5n56Xl/Zzcx3N7/VqWjC8WxsOD25xO93N6ntO182e0jS8WxuODz3M6nbxNfvucnHfPxBcL48HBL1+S8+vS1sX3yS3vT3uQ8cXCeHjw2k5X2r59Tp7X+n2yI75YGA8PPmvtzc+58+Zt+7wzXyyMDw/+r1t13N7mffK2lYovFsbDgx9c3/mXj48/D/4L3x//9v0F+L+h4l/yPxsAAAAASUVORK5CYII=" alt="QR Code Padrão">
                     <input type="file" id="qr-upload" accept="image/*" onchange="previewImage(event, 'qr-code-img', 'qr-placeholder')">
                 </div>
             </div>
@@ -470,7 +475,7 @@
                     
                     imgElement.src = e.target.result;
                     imgElement.style.display = 'block'; // Mostra a imagem
-                    placeholderElement.style.display = 'none'; // Esconde o texto de aviso
+                    if (placeholderElement) placeholderElement.style.display = 'none'; // Esconde o texto de aviso se existir
                 }
                 reader.readAsDataURL(file);
             }
@@ -484,6 +489,76 @@
                 document.execCommand('insertText', false, text);
             });
         });
+
+        function applyMask(elementId, maskType) {
+            const element = document.getElementById(elementId);
+            if (!element) return;
+
+            element.addEventListener('input', function(e) {
+                let text = this.innerText;
+                
+                // Se estiver vazio ou for o placeholder do CPF, não aplica formatação em andamento
+                if (text.trim() === '' || (maskType === 'cpf' && text.toUpperCase() === 'XXX.XXX.XXX-XX')) {
+                    return;
+                }
+
+                let digits = text.replace(/\D/g, ''); // Extrai apenas números
+                let formatted = '';
+
+                if (maskType === 'cpf') {
+                    digits = digits.substring(0, 11); // Limita a 11 dígitos
+                    if (digits.length > 9) {
+                        formatted = digits.replace(/(\d{3})(\d{3})(\d{3})(\d{1,2})/, "$1.$2.$3-$4");
+                    } else if (digits.length > 6) {
+                        formatted = digits.replace(/(\d{3})(\d{3})(\d{1,3})/, "$1.$2.$3");
+                    } else if (digits.length > 3) {
+                        formatted = digits.replace(/(\d{3})(\d{1,3})/, "$1.$2");
+                    } else {
+                        formatted = digits;
+                    }
+                } else if (maskType === 'date') {
+                    digits = digits.substring(0, 8); // Limita a 8 dígitos
+                    if (digits.length > 4) {
+                        formatted = digits.replace(/(\d{2})(\d{2})(\d{1,4})/, "$1/$2/$3");
+                    } else if (digits.length > 2) {
+                        formatted = digits.replace(/(\d{2})(\d{1,2})/, "$1/$2");
+                    } else {
+                        formatted = digits;
+                    }
+                }
+
+                // Só atualiza o DOM se a máscara alterou o texto
+                if (text !== formatted && digits.length > 0) {
+                    this.innerText = formatted;
+                    
+                    // Reposiciona o cursor no final do texto após injetar os pontos/traços
+                    let range = document.createRange();
+                    let sel = window.getSelection();
+                    range.selectNodeContents(this);
+                    range.collapse(false); 
+                    sel.removeAllRanges();
+                    sel.addRange(range);
+                }
+            });
+
+            // Ao focar (clicar) no campo, se ele tiver o valor padrão, seleciona tudo para facilitar
+            element.addEventListener('focus', function() {
+                if (this.innerText === 'XXX.XXX.XXX-XX' || this.innerText === '01/01/2001' || this.innerText === '31/10/2027') {
+                    setTimeout(() => {
+                        let range = document.createRange();
+                        range.selectNodeContents(this);
+                        let sel = window.getSelection();
+                        sel.removeAllRanges();
+                        sel.addRange(range);
+                    }, 10);
+                }
+            });
+        }
+
+        // Inicializando as máscaras nos três campos da área verde
+        applyMask('mask-nascimento', 'date');
+        applyMask('mask-cpf', 'cpf');
+        applyMask('mask-validade', 'date');
 
         function prepareForExport() {
             // Remove the contenteditable styling temporarily
