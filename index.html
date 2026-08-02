@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StudentPass</title>
+    <title>Carteirinha de Estudante - Editável</title>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -339,6 +339,57 @@
         /* Classe para esconder elementos durante a exportação */
         .hide-on-export {
             display: none !important;
+        }
+
+        /* Ajustes de Responsividade para Mobile */
+        @media (max-width: 540px) {
+            body { padding: 10px; align-items: flex-start; }
+            .card-container { width: 100%; min-width: 320px; margin-top: 10px; margin-bottom: 100px; }
+            
+            /* Cabeçalho e Foto */
+            .header-section { padding: 15px 105px 10px 15px; } /* Evita texto sob a foto */
+            .logo-area { gap: 10px; }
+            .logo-text h1 { font-size: 0.9rem; }
+            .logo-text p { font-size: 0.75rem; }
+            .photo-container { width: 85px; height: 115px; right: 15px; top: 15px; }
+            
+            /* Faixa Matrícula */
+            .matricula-banner { padding: 8px 15px; padding-right: 110px; font-size: 0.85rem; }
+            
+            /* Dados (Verde) */
+            .data-section { padding: 15px; gap: 12px; }
+            .data-value { font-size: 1rem; }
+            .data-value.course-name { font-size: 0.95rem; }
+            .data-value.student-name { font-size: 1.15rem; }
+            
+            /* Linha Data/CPF em uma linha */
+            .row-data { gap: 5px; }
+            .row-data .data-label { font-size: 0.6rem; }
+            .row-data .data-value { font-size: 0.75rem; } 
+            
+            /* Rodapé (Branco) */
+            .info-section { padding: 15px; }
+            .disclaimer-box { font-size: 0.75rem; padding: 8px; margin-bottom: 10px; }
+            .campus-banner { font-size: 0.7rem; padding: 8px; margin-bottom: 10px; }
+            .address-info { font-size: 0.7rem; margin-bottom: 10px; }
+            .validity-info { font-size: 0.8rem; margin-bottom: 15px; }
+            
+            .footer-details { gap: 10px; align-items: center; }
+            .footer-text { font-size: 0.6rem; padding-right: 5px; }
+            .qr-container { width: 65px; height: 65px; }
+            
+            /* Botões */
+            .export-buttons { bottom: 10px; right: 10px; gap: 5px; flex-direction: column; }
+            .export-btn { padding: 8px 10px; font-size: 0.8rem; }
+        }
+        
+        @media (max-width: 360px) {
+            /* Telas muito pequenas (ex: iPhone SE) */
+            .logo-grid { transform: scale(0.8); transform-origin: left center; }
+            .row-data .data-value { font-size: 0.65rem; }
+            .photo-container { width: 75px; height: 100px; }
+            .header-section { padding-right: 95px; }
+            .matricula-banner { padding-right: 95px; }
         }
     </style>
     
